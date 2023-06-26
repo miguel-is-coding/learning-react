@@ -1,24 +1,24 @@
 import './App.css'
-import {useState} from "react";
+import {useState} from "react"
 
 const TURNS = {
     cross: 'x',
     circle: 'o'
-};
+}
 
 
 const Cell = ({children, isSelected, updateBoard, index}) => {
-    const className = `square ${isSelected ? 'is-selected' : ''}`;
+    const className = `square ${isSelected ? 'is-selected' : ''}`
 
     const handleClick = () => {
-        updateBoard(index);
-    };
+        updateBoard(index)
+    }
 
     return (
         <div onClick={handleClick} className={className}>
             {children}
         </div>
-    );
+    )
 }
 
 const WINNER_COMBOS = [
@@ -30,46 +30,45 @@ const WINNER_COMBOS = [
     [2, 5, 8],
     [0, 4, 8],
     [2, 4, 6]
-];
+]
 
 function App() {
-    const [board, setBoard] = useState(Array(9).fill(null));
-    const [turn, setTurn] = useState(TURNS.cross);
-    const [winner, setWinner] = useState(null);
+    const [board, setBoard] = useState(Array(9).fill(null))
+    const [turn, setTurn] = useState(TURNS.cross)
+    const [winner, setWinner] = useState(null)
 
     const checkWinner = (boardToCheck) => {
         for (const combo of WINNER_COMBOS) {
-            const [a, b, c] = combo;
+            const [a, b, c] = combo
             if (
                 boardToCheck[a] &&
                 boardToCheck[a] === boardToCheck[b] &&
                 boardToCheck[a] === boardToCheck[c]
             ) {
-                return boardToCheck[a];
+                return boardToCheck[a]
             }
         }
-
-        return null;
+        return null
     }
 
     const resetGame = () => {
-        setBoard(Array(9).fill(null));
-        setTurn(TURNS.cross);
-        setWinner(null);
+        setBoard(Array(9).fill(null))
+        setTurn(TURNS.cross)
+        setWinner(null)
     }
     const updateBoard = (index) => {
         if (board[index] || winner) {
-            return;
+            return
         }
 
-        const newBoard = [...board];
-        newBoard[index] = turn;
-        setBoard(newBoard);
-        const newTurn = turn === TURNS.cross ? TURNS.circle : TURNS.cross;
-        setTurn(newTurn);
-        const newWinner = checkWinner(newBoard);
+        const newBoard = [...board]
+        newBoard[index] = turn
+        setBoard(newBoard)
+        const newTurn = turn === TURNS.cross ? TURNS.circle : TURNS.cross
+        setTurn(newTurn)
+        const newWinner = checkWinner(newBoard)
         if (newWinner) {
-            setWinner(newWinner);
+            setWinner(newWinner)
         }
     }
 
