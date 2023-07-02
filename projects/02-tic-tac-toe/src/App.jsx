@@ -5,7 +5,7 @@ import {Cell} from "./components/Cell.jsx";
 import {TURNS} from "./constants.js";
 import {checkEndGame, checkWinnerFrom} from "./logic/board.js";
 import {WinnerModal} from "./components/WinnerModal.jsx";
-
+import {resetGameStorage, saveGameToStorage} from "./logic/storage/index.js";
 
 
 function App() {
@@ -23,8 +23,7 @@ function App() {
         setBoard(Array(9).fill(null))
         setTurn(TURNS.cross)
         setWinner(null)
-        window.localStorage.removeItem('board')
-        window.localStorage.removeItem('turn')
+        resetGameStorage();
     }
 
     const updateBoard = (index) => {
@@ -37,8 +36,7 @@ function App() {
         setBoard(newBoard)
         const newTurn = turn === TURNS.cross ? TURNS.circle : TURNS.cross
         setTurn(newTurn)
-        window.localStorage.setItem('board', JSON.stringify(newBoard))
-        window.localStorage.setItem('turn', newTurn)
+        saveGameToStorage({board: newBoard, turn: newTurn});
         const newWinner = checkWinnerFrom(newBoard)
         if (newWinner) {
             confetti()
